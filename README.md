@@ -8,8 +8,7 @@ AI-powered application that analyzes scientific figures and generates structured
 
 ## Example Worflow
 1. Determine if uploaded image is a scientific figure
-2. If a figure, analyze it
-    If not, send a warning instead of result
+2. If a figure, analyze it (If not, send a warning instead of result)
 3. Generate structured explanation
 
 ## Tech Stack
