@@ -22,3 +22,37 @@ AI-powered application that analyzes scientific figures and generates structured
 - Figure-specific analysis pipelines
 - Improvement of microscopy interpretation
 - PDF/different input type extraction
+
+## Installation
+
+### Clone the repository
+
+```bash
+git clone https://github.com/skmohan370/scientific-figure-explainer.git
+cd scientific-figure-explainer
+```
+
+### Create a virtual environment
+
+```bash
+python -m venv venv
+source venv/bin/activate
+```
+
+### Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### Download the vision model
+
+```bash
+ollama pull qwen2.5vl:3b
+```
+
+### Run the application
+
+```bash
+streamlit run ftoe.py
+```
