@@ -57,7 +57,7 @@ def classify_figure_type(image):
     return response['message']['content'].strip()
 
 
-def analyze_figure(image):
+def analyze_graph(image):
     with tempfile.NamedTemporaryFile(
         delete=False,
         suffix=".png"
@@ -72,16 +72,49 @@ def analyze_figure(image):
                         Analyze this scientific figure.
 
                         Provide:
-                        1. Figure Type
-                        2. Axes
-                        3. Main Trend
-                        4. Groups or Conditions
-                        5. Key Insight
+                        1. Graph Type
+                        2. X-Axis
+                        3. Y-Axis
+                        4. Main Trend
+                        5. Groups or Conditions
+                        6. Notable Observations
+                        7. Main Conclusion
 
-                        Be concise and structured.
+                        For each section, provide 1-3 bullet points max.
+                        Ensure all seven sections are complete, even if some are "None" or "N/A".
                         ''',
                     'images': [temp_file.name]}])
     return response['message']['content']
+
+def analyze_microscopy(image):
+    with tempfile.NamedTemporaryFile(
+        delete=False,
+        suffix=".png"
+    ) as temp_file:
+        image.save(temp_file.name)
+        response = chat(
+            model='qwen2.5vl:3b',
+            messages=[
+                {
+                    'role': 'user',
+                    'content': '''
+                        Analyze this scientific figure.
+
+                        Provide:
+                        1. Image Type
+                        2. Visible Structures
+                        3. Cell Morphology
+                        4. Cell Density
+                        5. Staining Patterns
+                        6. Notable Observations
+                        7. Biological Interpretation
+
+                        For each section, provide 1-3 bullet points max.
+                        Ensure all seven sections are complete, even if some are "None" or "N/A".
+                        ''',
+                    'images': [temp_file.name]}])
+    return response['message']['content']
+
 st.set_page_config(page_title="Figure Understanding System")
 
 st.title("Scientific Figure → Explanation System")
@@ -104,7 +137,10 @@ if uploaded_file is not None:
                 st.write("### Figure Type")
                 st.write(figure_type)
                 with st.spinner("Analyzing figure..."):
-                    analysis = analyze_figure(image)
+                    if figure_type == "MICROSCOPY":
+                        analysis = analyze_microscopy(image)
+                    else:
+                        analysis = analyze_graph(image)
                 st.write("### Analysis")
                 st.write(analysis)
         except Exception as e:
