@@ -4,12 +4,10 @@ from ollama import chat
 import tempfile
 
 def is_scientific_figure(image):
-
     with tempfile.NamedTemporaryFile(
         delete=False,
         suffix=".png"
     ) as temp_file:
-
         image.save(temp_file.name)
 
         response = chat(
@@ -18,36 +16,53 @@ def is_scientific_figure(image):
                 {
                     'role': 'user',
                     'content': '''
-Is this a scientific figure, graph, chart,
-microscopy image, scientific illustration,
-or scientific visualization?
+                        Is this a scientific figure, graph, chart,
+                        microscopy image, scientific illustration,
+                        or scientific visualization?
 
-Answer with only:
-
-YES
-
-or
-
-NO
-''',
+                        Answer with only:
+                        YES
+                        or
+                        NO
+                        ''',
                     'images': [temp_file.name]
-                }
-            ]
-        )
-
+                }])
     answer = response['message']['content'].strip()
-
     return "YES" in answer.upper()
 
-def analyze_figure(image):
 
+def classify_figure_type(image):
     with tempfile.NamedTemporaryFile(
         delete=False,
         suffix=".png"
     ) as temp_file:
-
         image.save(temp_file.name)
+        response = chat(
+            model='qwen2.5vl:3b',
+            messages=[
+                {
+                    'role': 'user',
+                    'content': '''
+                        Classify the type of this scientific figure.
+                        Respond with ONLY one of the following:
+                        LINE_GRAPH
+                        BAR_CHART
+                        SCATTER_PLOT
+                        MICROSCOPY
+                        HEATMAP
+                        OTHER
+                        ''',
+                    'images': [temp_file.name]
+                }])
+    return response['message']['content'].strip()
 
+
+def analyze_figure(image):
+    with tempfile.NamedTemporaryFile(
+        delete=False,
+        suffix=".png"
+    ) as temp_file:
+        image.save(temp_file.name)
         response = chat(
             model='qwen2.5vl:3b',
             messages=[
@@ -66,9 +81,7 @@ def analyze_figure(image):
                         Be concise and structured.
                         ''',
                     'images': [temp_file.name]}])
-
     return response['message']['content']
-
 st.set_page_config(page_title="Figure Understanding System")
 
 st.title("Scientific Figure → Explanation System")
@@ -83,15 +96,15 @@ if uploaded_file is not None:
         try:
             with st.spinner("Checking image..."):
                 is_figure = is_scientific_figure(image)
-
             if not is_figure:
-
                 st.warning("This image does not appear to be a scientific figure.")
-
             else:
+                with st.spinner("Classifying figure type..."):
+                    figure_type = classify_figure_type(image)
+                st.write("### Figure Type")
+                st.write(figure_type)
                 with st.spinner("Analyzing figure..."):
                     analysis = analyze_figure(image)
-
                 st.write("### Analysis")
                 st.write(analysis)
         except Exception as e:
