@@ -27,6 +27,8 @@ def is_scientific_figure(image):
                         ''',
                     'images': [temp_file.name]
                 }])
+        options = {
+                'max_tokens': 500}
     answer = response['message']['content'].strip()
     return "YES" in answer.upper()
 
@@ -79,6 +81,91 @@ def analyze_graph(image):
                         5. Groups or Conditions
                         6. Notable Observations
                         7. Main Conclusion
+
+                        For each section, provide 1-3 bullet points max.
+                        Ensure all seven sections are complete, even if some are "None" or "N/A".
+                        ''',
+                    'images': [temp_file.name]}])
+    return response['message']['content']
+
+def analyze_scatter(image):
+    with tempfile.NamedTemporaryFile(
+        delete=False,
+        suffix=".png"
+    ) as temp_file:
+        image.save(temp_file.name)
+        response = chat(
+            model='qwen2.5vl:3b',
+            messages=[
+                {
+                    'role': 'user',
+                    'content': '''
+                        Analyze this scientific figure.
+
+                        Provide:
+                        1. Plot Type
+                        2. X-Axis
+                        3. Y-Axis
+                        4. Relationship Between Variables
+                        5. Clusters or Groups
+                        6. Outliers and/or Notable Observations
+                        7. Main Conclusion
+
+                        For each section, provide 1-3 bullet points max.
+                        Ensure all seven sections are complete, even if some are "None" or "N/A".
+                        ''',
+                    'images': [temp_file.name]}])
+    return response['message']['content']
+
+def analyze_bar(image):
+    with tempfile.NamedTemporaryFile(
+        delete=False,
+        suffix=".png"
+    ) as temp_file:
+        image.save(temp_file.name)
+        response = chat(
+            model='qwen2.5vl:3b',
+            messages=[
+                {
+                    'role': 'user',
+                    'content': '''
+                        Analyze this scientific figure.
+
+                        Provide:
+                        1. Chart Type
+                        2. X-Axis
+                        3. Y-Axis
+                        4. Highest and Lowest Categories
+                        5. Important Comparisons or Observations
+                        6. Main Conclusion
+
+                        For each section, provide 1-3 bullet points max.
+                        Ensure all seven sections are complete, even if some are "None" or "N/A".
+                        ''',
+                    'images': [temp_file.name]}])
+    return response['message']['content']
+
+def analyze_heatmap(image):
+    with tempfile.NamedTemporaryFile(
+        delete=False,
+        suffix=".png"
+    ) as temp_file:
+        image.save(temp_file.name)
+        response = chat(
+            model='qwen2.5vl:3b',
+            messages=[
+                {
+                    'role': 'user',
+                    'content': '''
+                        Analyze this scientific figure.
+
+                        Provide:
+                        1. Heatmap Type
+                        2. Axes
+                        3. Color Scale Meaning
+                        4. High and Low Value Regions
+                        5. Notable Patterns
+                        6. Main Conclusion
 
                         For each section, provide 1-3 bullet points max.
                         Ensure all seven sections are complete, even if some are "None" or "N/A".
@@ -139,6 +226,12 @@ if uploaded_file is not None:
                 with st.spinner("Analyzing figure..."):
                     if figure_type == "MICROSCOPY":
                         analysis = analyze_microscopy(image)
+                    elif figure_type == "SCATTER_PLOT":
+                        analysis = analyze_scatter(image)
+                    elif figure_type == "BAR_CHART":
+                        analysis = analyze_bar(image)
+                    elif figure_type == "HEATMAP":
+                        analysis = analyze_heatmap(image)
                     else:
                         analysis = analyze_graph(image)
                 st.write("### Analysis")
