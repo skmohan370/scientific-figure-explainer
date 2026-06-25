@@ -23,6 +23,11 @@ AI-powered application that analyzes scientific figures and generates structured
 - Improvement of microscopy interpretation
 - PDF/different input type extraction
 
+## Known Limitations
+- Very dense heatmaps with extensive annotations or high-resolution labels may produce incomplete analyses.
+- Performance depends on the quality and complexity of the uploaded figure.
+- Blurry or low-resolution figures may reduce classification accuracy.
+
 ## Installation
 
 ### Clone the repository

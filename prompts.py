@@ -57,11 +57,9 @@ Provide:
 1. Heatmap Type
 2. Axes
 3. Color Scale Meaning
-4. High-Value Regions
-5. Low-Value Regions
-6. Notable Patterns
-7. Main Conclusion
-8. General Audience Explanation (3 sentences max)
+4. Key Patterns (include high and low regions)
+5. Main Conclusion
+6. General Audience Explanation
 
 Be concise and structured.
 """
