@@ -10,6 +10,7 @@ Provide:
 5. Groups or Conditions
 6. Important Observations
 7. Main Conclusion
+8. General Audience Explanation (3 sentences max)
 
 Be concise and structured.
 """
@@ -26,6 +27,7 @@ Provide:
 5. Lowest Category
 6. Important Comparisons
 7. Main Conclusion
+8. General Audience Explanation (3 sentences max)
 
 Be concise and structured.
 """
@@ -42,6 +44,7 @@ Provide:
 5. Clusters or Groups
 6. Outliers
 7. Main Conclusion
+8. General Audience Explanation (3 sentences max)
 
 Be concise and structured.
 """
@@ -58,6 +61,7 @@ Provide:
 5. Low-Value Regions
 6. Notable Patterns
 7. Main Conclusion
+8. General Audience Explanation (3 sentences max)
 
 Be concise and structured.
 """
@@ -73,6 +77,7 @@ Provide:
 4. Cell Density
 5. Notable Features
 6. Biological Interpretation
+7. General Audience Explanation (3 sentences max)
 
 Be concise and structured.
 """
